@@ -1,9 +1,18 @@
-import express from 'express';
+import express from 'express'
+import { connect } from './database/database'
 
-const app = express();
+const app = express()
 
-app.listen(3000);
+connect()
+
+app.listen(3000)
 
 app.get('/api/', (req, res) => {
-    res.send(200);
-});
+  console.log('GET /api')
+  res.send(200)
+})
+
+app.post('/api/login', (req, res) => {
+  res.send(200)
+})
+
