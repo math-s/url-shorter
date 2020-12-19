@@ -5,7 +5,9 @@ const app = express()
 
 connect()
 
-app.listen(3000)
+app.listen(3000, () => {
+  console.log('listening on port 3000...')
+})
 
 app.get('/api/', (req, res) => {
   console.log('GET /api')
@@ -15,4 +17,3 @@ app.get('/api/', (req, res) => {
 app.post('/api/login', (req, res) => {
   res.send(200)
 })
-
