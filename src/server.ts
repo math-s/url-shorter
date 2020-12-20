@@ -1,9 +1,6 @@
 import express from 'express'
-import { connect } from './database/database'
 
 const app = express()
-
-connect()
 
 app.listen(3000, () => {
   console.log('listening on port 3000...')

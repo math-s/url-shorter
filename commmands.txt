@@ -1,0 +1,7 @@
+pgcli postgres://user:changeme@localhost:5432/databases
+
+sudo docker-compose up -d
+
+npx prisma migrate dev --preview-feature
+
+sudo docker ps -a

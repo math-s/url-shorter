@@ -17,7 +17,8 @@ model User {
 model Links {
   id        Int     @default(autoincrement()) @id
   title     String?
-  content   String @unique
+  long      String @unique
+  short     String?
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
   clicks    Int?

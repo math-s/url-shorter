@@ -7,7 +7,6 @@
     "dev": "ts-node-dev --respawn src/server.ts",
     "postgres:start": "docker-compose up -d",
     "makemigrations": "npx prisma migrate dev --preview-feature",
-    
     "test": "jest"
   },
   "devDependencies": {
@@ -29,6 +28,8 @@
   "dependencies": {
     "@prisma/cli": "2.13.1",
     "@prisma/client": "2.13.1",
-    "express": "^4.17.1"
+    "date-fns": "^2.16.1",
+    "express": "^4.17.1",
+    "ts-node": "^9.1.1"
   }
 }

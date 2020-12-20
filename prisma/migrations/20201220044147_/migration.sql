@@ -15,7 +15,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Links" (
 "id" SERIAL,
     "title" TEXT,
-    "content" TEXT NOT NULL,
+    "long" TEXT NOT NULL,
+    "short" TEXT,
     "authorId" INTEGER,
     "clicks" INTEGER,
 
@@ -26,7 +27,7 @@ CREATE TABLE "Links" (
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Links.content_unique" ON "Links"("content");
+CREATE UNIQUE INDEX "Links.long_unique" ON "Links"("long");
 
 -- AddForeignKey
 ALTER TABLE "Links" ADD FOREIGN KEY("authorId")REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
