@@ -1,7 +1,8 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
-import home from './routes/home'
+import router from './routes'
+
 dotenv.config()
 
 const app = express()
@@ -10,7 +11,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/', home)
+app.use(router)
 
 app.listen(3000, () => {
   console.log('listening on port 3000...')
