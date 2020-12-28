@@ -7,12 +7,24 @@ dotenv.config()
 
 const app = express()
 
-/** Parse the body of the request */
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(router)
 
-app.listen(3000, () => {
-  console.log('listening on port 3000...')
+// Add headers
+app.use(function (req, res, next) {
+
+  res.header('Access-Control-Allow-Origin', '*')
+
+  res.header('Access-Control-Allow-Methods', '*')
+
+  res.header('Access-Control-Allow-Headers', '*')
+
+  next()
+})
+
+
+app.listen(3001, () => {
+  console.log('listening on port 3001...')
 })

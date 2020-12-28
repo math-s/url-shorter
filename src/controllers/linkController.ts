@@ -17,19 +17,27 @@ const getLinksByUser = async (req: Request, res: Response, next: NextFunction) =
 }
 
 const createLink = async (req: Request, res: Response, next:NextFunction) => {
-  await prisma.links.create({
+  const short = Math.random().toString(36).substring(2, 10) 
+  try {
+    await prisma.links.create({
     data: {
       long: req.body.long,
+      short: short,
       title: req.body.title,
+      clicks: 0,
       author: {
         connect:
               {
                 id: req.body.userId
               }
+        }
       }
-    }
-  })
-  res.status(200)
+    })
+    res.status(200).end()
+  }
+  catch (err) {
+    console.log(err)
+  }
 }
 
 const updateLink = async (req: Request, res: Response, next: NextFunction) => {
@@ -43,4 +51,38 @@ const updateLink = async (req: Request, res: Response, next: NextFunction) => {
   })
 }
 
-export default { getLinksByUser, createLink, updateLink }
+const deleteLink = async (req: Request, res: Response, next: NextFunction) => {
+  const link = await prisma.links.delete({
+    where: 
+    {
+      long: req.body.long
+    }
+  })
+  res.send(200).end()
+}
+
+const shortredirect = async (req: Request, res: Response, next: NextFunction) => {
+  const link = await prisma.links.findFirst({
+    where: {
+      short: req.params.short
+    }
+  })
+
+  if(link){
+    const counter = link!.clicks +1
+    const count = await prisma.links.update({
+      where:{short: req.params.short},
+      data:{clicks:counter}
+    })
+    res.redirect(link.long)
+  }
+  else{res.sendStatus(404).end()}
+}
+
+export default { 
+  getLinksByUser, 
+  createLink, 
+  updateLink, 
+  shortredirect, 
+  deleteLink
+}
