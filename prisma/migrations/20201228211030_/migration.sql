@@ -20,9 +20,9 @@ CREATE TABLE "Links" (
 "id" SERIAL,
     "title" TEXT,
     "long" TEXT NOT NULL,
-    "short" TEXT,
+    "short" TEXT NOT NULL,
     "authorId" INTEGER,
-    "clicks" INTEGER,
+    "clicks" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -31,11 +31,8 @@ CREATE TABLE "Links" (
 CREATE TABLE "Token" (
 "id" SERIAL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "type" "TokenType" NOT NULL,
-    "emailToken" TEXT,
+    "emailToken" TEXT NOT NULL,
     "valid" BOOLEAN NOT NULL DEFAULT true,
-    "expiration" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
@@ -46,6 +43,9 @@ CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Links.long_unique" ON "Links"("long");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Links.short_unique" ON "Links"("short");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Token.emailToken_unique" ON "Token"("emailToken");
