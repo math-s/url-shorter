@@ -42,9 +42,6 @@ CREATE TABLE "Token" (
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Links.long_unique" ON "Links"("long");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Links.short_unique" ON "Links"("short");
 
 -- CreateIndex
