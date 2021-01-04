@@ -15,22 +15,19 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   })
   try {
     if(user) {
-      console.log(user)
+      console.log('user true')
       bcrypt.compare(req.body.password, user.hashPassword, function(err,result) {
         if(result){
-          res.status(200)
-          next()
+          console.log('result true 200')
+
         }
         if(!result) {
-           res.status(401)
-           next()
+          console.log('result false 401')
         }
       })
-      res.status(200)
-      next()
     }
     else {
-      return res.status(404).redirect('/')
+      console.log('user false 404')
     }
   }
   catch(err) {
