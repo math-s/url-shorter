@@ -19,15 +19,17 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
       bcrypt.compare(req.body.password, user.hashPassword, function(err,result) {
         if(result){
           console.log('result true 200')
-
+          res.sendStatus(200)
         }
         if(!result) {
           console.log('result false 401')
+          res.sendStatus(401) 
         }
       })
     }
     else {
       console.log('user false 404')
+      res.sendStatus(404) 
     }
   }
   catch(err) {
