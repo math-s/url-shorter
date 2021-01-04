@@ -1,10 +1,9 @@
 import express from 'express'
 import linkController from './controllers/linkController'
 import loginController from './controllers/loginController'
+import validate from './auth'
 
 const router = express.Router()
-
-router.post('/authenticate', loginController.login)
 
 router.get('/link', linkController.getLinksByUser)
 

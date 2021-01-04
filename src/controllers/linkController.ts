@@ -17,6 +17,7 @@ const getLinksByUser = async (req: Request, res: Response, next: NextFunction) =
 }
 
 const createLink = async (req: Request, res: Response, next:NextFunction) => {
+  console.log('[POST] criar link')
   const short = Math.random().toString(36).substring(2, 10) 
   try {
     await prisma.links.create({
@@ -43,7 +44,7 @@ const createLink = async (req: Request, res: Response, next:NextFunction) => {
 const updateLink = async (req: Request, res: Response, next: NextFunction) => {
   const link = await prisma.links.update({
     where: {
-      long: req.body.long
+      id: req.body.id
     },
     data: {
       title: req.body.title
@@ -55,7 +56,7 @@ const deleteLink = async (req: Request, res: Response, next: NextFunction) => {
   const link = await prisma.links.delete({
     where: 
     {
-      long: req.body.long
+      id: req.body.id
     }
   })
   res.send(200).end()
