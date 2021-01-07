@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
-import { add } from 'date-fns'
 import jwt from 'jsonwebtoken'
 
 const prisma = new PrismaClient()
@@ -15,20 +14,20 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   })
   try {
     if(user) {
-      console.log('user true')
       bcrypt.compare(req.body.password, user.hashPassword, function(err,result) {
         if(result){
-          console.log('result true 200')
-          res.sendStatus(200)
+          const token = jwt.sign({
+            exp: Math.floor(Date.now() / 1000) + (60 * 60),
+            user: user.id
+          }, 'secret');
+          res.status(200).jsonp({token: token, auth:true}).send()
         }
         if(!result) {
-          console.log('result false 401')
           res.sendStatus(401) 
         }
       })
     }
     else {
-      console.log('user false 404')
       res.sendStatus(404) 
     }
   }
@@ -36,7 +35,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     console.log(err)
   }
 }
-
+// TODO: handle error of not unique email
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   const textPassword = req.body.password
   const saltRounds = 10

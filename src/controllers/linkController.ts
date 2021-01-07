@@ -1,19 +1,34 @@
 import { NextFunction, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
+import jwt from 'jsonwebtoken'
 
 const prisma = new PrismaClient()
 
 const getLinksByUser = async (req: Request, res: Response, next: NextFunction) => {
-  const linksByUser = await prisma.links.findMany({
-    where: {
-      authorId: req.body.id
-    }
-  })
-  if (linksByUser) {
-    return res.status(200).json(linksByUser)
-  } else {
-    return res.status(404)
+
+  try {
+    var decoded = jwt.verify(req.body.token, 'secret');
+    console.log(decoded)
+  } catch(err) {
+    return res.status(500)
   }
+  try{ 
+    const linksByUser = await prisma.links.findMany({
+      where: {
+        authorId: req.body.id
+      }
+    })
+    if (linksByUser.length > 0) {
+      console.log(linksByUser.length)
+      return res.status(200).json(linksByUser)
+    } else {
+      return res.status(404)
+    }
+  }
+  catch(err){
+    console.log(err)
+  }
+
 }
 
 const createLink = async (req: Request, res: Response, next:NextFunction) => {
@@ -42,14 +57,17 @@ const createLink = async (req: Request, res: Response, next:NextFunction) => {
 }
 
 const updateLink = async (req: Request, res: Response, next: NextFunction) => {
-  const link = await prisma.links.update({
-    where: {
-      id: req.body.id
-    },
-    data: {
-      title: req.body.title
-    }
-  })
+ 
+  try {
+    const link = await prisma.links.update({
+      where: {id: req.body.id },
+      data: {title: req.body.title},
+    })
+   }
+  catch (err) {
+    console.log(err)
+  }
+  res.sendStatus(200)
 }
 
 const deleteLink = async (req: Request, res: Response, next: NextFunction) => {
@@ -59,7 +77,7 @@ const deleteLink = async (req: Request, res: Response, next: NextFunction) => {
       id: req.body.id
     }
   })
-  res.send(200).end()
+  res.sendStatus(200)
 }
 
 const shortredirect = async (req: Request, res: Response, next: NextFunction) => {
